@@ -1,0 +1,16 @@
+[Unit]
+Description=Back up Standard Notes to the encrypted NAS repository
+RequiresMountsFor=/mnt/nas-backups
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/mnt/storage/apps/standard-notes/scripts/backup.sh
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+
+[Install]
+WantedBy=multi-user.target
+

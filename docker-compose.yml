@@ -1,0 +1,75 @@
+services:
+  server:
+    image: standardnotes/server:latest@sha256:6b371bc0c3ae755500b82f4c580fae7fd768e5f9214cdc2f195fc130cf6ffdcd
+    env_file:
+      - /etc/homeserver/standard-notes.env
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+      localstack:
+        condition: service_started
+    ports:
+      - "127.0.0.1:8096:3000"
+      - "127.0.0.1:8097:3104"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 1m
+    volumes:
+      - ./logs:/var/lib/server/logs
+      - ./uploads:/opt/server/packages/files/dist/uploads
+
+  localstack:
+    image: localstack/localstack:3.0@sha256:e606c4421419030b12d63a59f1211f57f5b0fbf7e9ce769e6250ee62ff4f9293
+    environment:
+      SERVICES: sns,sqs
+      HOSTNAME_EXTERNAL: localstack
+      LS_LOG: warn
+    expose:
+      - "4566"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./localstack_bootstrap.sh:/etc/localstack/init/ready.d/localstack_bootstrap.sh:ro
+
+  db:
+    image: mysql:8@sha256:b3b90af2a6552ae30c266fdb7d5dd55f3afb72404bb78d37fe8a23eb857fd3fb
+    env_file:
+      - /etc/homeserver/standard-notes.env
+    expose:
+      - "3306"
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - mysqladmin ping --host=127.0.0.1 --user="$${MYSQL_USER}" --password="$${MYSQL_PASSWORD}" --silent
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 30s
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 1m
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./data/import:/docker-entrypoint-initdb.d
+
+  cache:
+    image: redis:6.0-alpine@sha256:2b35fc7d2908e25aa6aa197f97882c8a67829d3b106ad5ea5c8028f816f26aa8
+    command: redis-server --appendonly yes
+    expose:
+      - "6379"
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./data/redis:/data
+

@@ -1,0 +1,6 @@
+.env
+data/
+logs/
+uploads/
+backup-restore-test/
+
