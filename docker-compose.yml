@@ -55,7 +55,6 @@ services:
     stop_grace_period: 1m
     volumes:
       - ./data/mysql:/var/lib/mysql
-      - ./data/import:/docker-entrypoint-initdb.d
 
   cache:
     image: redis:6.0-alpine@sha256:2b35fc7d2908e25aa6aa197f97882c8a67829d3b106ad5ea5c8028f816f26aa8
@@ -72,4 +71,3 @@ services:
       - no-new-privileges:true
     volumes:
       - ./data/redis:/data
-
