@@ -20,9 +20,9 @@ options**, select a custom sync server, and enter:
 https://journal-sync.jdealla.com
 ```
 
-The self-hosted web client at `https://journal.jdealla.com` requires the same
-one-time custom sync-server selection. Do not register against the default
-Standard Notes cloud server.
+The self-hosted web client at `https://journal.jdealla.com` is configured to
+use this custom sync server by default. The native mobile and desktop clients
+still require the one-time custom sync-server selection above.
 
 Register the owner's account once. Then immediately disable further account
 creation on ds1:
