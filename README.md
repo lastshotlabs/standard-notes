@@ -57,8 +57,14 @@ sudo /mnt/storage/apps/standard-notes/scripts/restore-check.sh
 ```
 
 The Restic password is stored only in
-`/etc/homeserver/standard-notes-backup.env`. Losing both that file and every
-configured recovery copy makes the backup repository unreadable.
+`/etc/homeserver/standard-notes-backup.env` on ds1. A root-only recovery copy
+lives at `/etc/standard-notes-restic-password` on ds2, physically beside the
+repository but outside its NFS export. Losing both copies makes the backup
+repository unreadable.
+
+The NAS repository is mounted on ds1 from
+`192.168.86.69:/tank/files` at `/mnt/nas-backups`. The host's `/etc/fstab`
+uses a persistent NFSv4 automount; the database never runs on NFS.
 
 ## Full recovery
 
