@@ -2,12 +2,14 @@
 
 Private Standard Notes sync infrastructure for `ds1`, deployed at:
 
-- `https://journal.jdealla.com` — sync and authentication API
+- `https://journal.jdealla.com` — self-hosted web journal
+- `https://journal-sync.jdealla.com` — sync and authentication API
 - `https://journal-files.jdealla.com` — encrypted file API
 
-The native Standard Notes clients encrypt journal contents before sending them
-to this server. Both published container ports bind only to host loopback;
-Cloudflare Tunnel supplies public HTTPS without an inbound firewall opening.
+The Standard Notes web, desktop, and mobile clients encrypt journal contents
+before sending them to this server. All published container ports bind only to
+host loopback; Cloudflare Tunnel supplies public HTTPS without an inbound
+firewall opening.
 
 ## First sign-in
 
@@ -15,8 +17,12 @@ Install the Standard Notes app. At the sign-in screen choose **Advanced
 options**, select a custom sync server, and enter:
 
 ```text
-https://journal.jdealla.com
+https://journal-sync.jdealla.com
 ```
+
+The self-hosted web client at `https://journal.jdealla.com` requires the same
+one-time custom sync-server selection. Do not register against the default
+Standard Notes cloud server.
 
 Register the owner's account once. Then immediately disable further account
 creation on ds1:
@@ -73,4 +79,4 @@ uses a persistent NFSv4 automount; the database never runs on NFS.
 3. Recreate the Compose project and wait for MySQL to become healthy.
 4. Import `standard-notes.sql.gz` into `standard_notes_db`.
 5. Restore the `uploads/` tree and restart `server`.
-6. Confirm `/healthcheck` through both HTTPS endpoints before reconnecting clients.
+6. Confirm the web root and `/healthcheck` through both API HTTPS endpoints before reconnecting clients.

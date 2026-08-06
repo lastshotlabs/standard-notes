@@ -1,4 +1,17 @@
 services:
+  web:
+    image: standardnotes/web:latest@sha256:9db2acbd6c7c11bfb8183342c61ff30996ab054219da298aba788f1c39cee20c
+    ports:
+      - "127.0.0.1:8098:80"
+    healthcheck:
+      test: [CMD, wget, --quiet, --spider, http://127.0.0.1/]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
   server:
     image: standardnotes/server:latest@sha256:6b371bc0c3ae755500b82f4c580fae7fd768e5f9214cdc2f195fc130cf6ffdcd
     env_file:
