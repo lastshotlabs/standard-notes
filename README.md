@@ -24,6 +24,10 @@ The self-hosted web client at `https://journal.jdealla.com` is configured to
 use this custom sync server by default. The native mobile and desktop clients
 still require the one-time custom sync-server selection above.
 
+Browser authentication cookies are scoped to `jdealla.com` so the web origin
+can maintain a session with the separate `journal-sync` origin. They are
+Secure, SameSite=Lax, and not partitioned.
+
 Register the owner's account once. Then immediately disable further account
 creation on ds1:
 
