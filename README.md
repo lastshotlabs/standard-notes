@@ -38,6 +38,21 @@ sudo /mnt/storage/apps/standard-notes/scripts/lock-registration.sh
 The account passphrase is the journal's encryption secret. Store it in the
 password manager: the server cannot recover it or decrypt journal entries.
 
+## Server-side features
+
+The official self-hosting documentation permits assigning the local account a
+`PRO_USER` role and `PRO_PLAN` subscription. Activate that server-side feature
+set with:
+
+```bash
+sudo /mnt/storage/apps/standard-notes/scripts/activate-server-features.sh
+```
+
+The script requires exactly one account, creates a fresh encrypted backup, and
+applies the records idempotently. This does not unlock separately licensed
+client-side features such as Super Notes or nested tags; those require an
+offline client subscription from Standard Notes.
+
 ## Production configuration
 
 Secrets live only in `/etc/homeserver/standard-notes.env`, owned by
