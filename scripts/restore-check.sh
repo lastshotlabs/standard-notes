@@ -25,8 +25,9 @@ if [[ -z "$dump_path" ]]; then
 fi
 
 gzip -t "$dump_path"
-gzip -cd "$dump_path" | grep -q 'CREATE TABLE'
+zgrep -Fq 'CREATE TABLE `users`' "$dump_path"
+zgrep -Fq 'CREATE TABLE `user_roles`' "$dump_path"
+zgrep -Fq 'CREATE TABLE `user_subscriptions`' "$dump_path"
 test -s "$restore_dir/etc/homeserver/standard-notes.env"
 
 echo "latest snapshot restored successfully and contains a valid SQL dump"
-

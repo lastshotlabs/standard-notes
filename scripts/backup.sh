@@ -25,10 +25,13 @@ trap 'rm -rf -- "$stage_dir"' EXIT
 
 sudo -u deploy env HOME=/home/deploy docker compose --project-directory "$app_dir" \
   exec -T db sh -c \
-  'MYSQL_PWD="$MYSQL_PASSWORD" exec mysqldump --single-transaction --quick --skip-lock-tables --user="$MYSQL_USER" "$MYSQL_DATABASE"' \
+  'MYSQL_PWD="$MYSQL_PASSWORD" exec mysqldump --single-transaction --quick --skip-lock-tables --no-tablespaces --user="$MYSQL_USER" "$MYSQL_DATABASE"' \
   | gzip -9 > "$stage_dir/standard-notes.sql.gz"
 
 gzip -t "$stage_dir/standard-notes.sql.gz"
+zgrep -Fq 'CREATE TABLE `users`' "$stage_dir/standard-notes.sql.gz"
+zgrep -Fq 'CREATE TABLE `user_roles`' "$stage_dir/standard-notes.sql.gz"
+zgrep -Fq 'CREATE TABLE `user_subscriptions`' "$stage_dir/standard-notes.sql.gz"
 
 restic backup \
   --tag standard-notes \
@@ -44,4 +47,3 @@ restic forget \
   --keep-weekly 5 \
   --keep-monthly 12 \
   --prune
-
