@@ -1,6 +1,6 @@
 services:
   web:
-    image: standardnotes/web:latest@sha256:9db2acbd6c7c11bfb8183342c61ff30996ab054219da298aba788f1c39cee20c
+    image: standardnotes/web:latest@sha256:e64ee482f69232447f28389575dd8c73195dfdc055b7c0bd4de489a9f0d03f4f
     command: /opt/standard-notes/web-entrypoint.sh
     ports:
       - "127.0.0.1:8098:80"
@@ -38,7 +38,7 @@ services:
       - ./uploads:/opt/server/packages/files/dist/uploads
 
   localstack:
-    image: localstack/localstack:3.0@sha256:e606c4421419030b12d63a59f1211f57f5b0fbf7e9ce769e6250ee62ff4f9293
+    image: localstack/localstack:4.14@sha256:3ebc37595918b8accb852f8048fef2aff047d465167edd655528065b07bc364a
     environment:
       SERVICES: sns,sqs
       HOSTNAME_EXTERNAL: localstack
@@ -52,7 +52,7 @@ services:
       - ./localstack_bootstrap.sh:/etc/localstack/init/ready.d/localstack_bootstrap.sh:ro
 
   db:
-    image: mysql:8@sha256:b3b90af2a6552ae30c266fdb7d5dd55f3afb72404bb78d37fe8a23eb857fd3fb
+    image: mysql:26@sha256:66aec17cd21a956029b83f083b813073859e8355dc1a00e55df6ba02f0e32345
     env_file:
       - /etc/homeserver/standard-notes.env
     expose:
@@ -73,7 +73,7 @@ services:
       - ./data/mysql:/var/lib/mysql
 
   cache:
-    image: redis:6.0-alpine@sha256:2b35fc7d2908e25aa6aa197f97882c8a67829d3b106ad5ea5c8028f816f26aa8
+    image: redis:8.10-alpine@sha256:becdda6c7f4b3fb42e42fd7f120bbf5c54c4caaaf16f26da24e4563d2c1f0576
     command: redis-server --appendonly yes
     expose:
       - "6379"
