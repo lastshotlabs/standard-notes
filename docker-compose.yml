@@ -38,7 +38,7 @@ services:
       - ./uploads:/opt/server/packages/files/dist/uploads
 
   localstack:
-    image: localstack/localstack:3.0@sha256:e606c4421419030b12d63a59f1211f57f5b0fbf7e9ce769e6250ee62ff4f9293
+    image: localstack/localstack:4.14@sha256:3ebc37595918b8accb852f8048fef2aff047d465167edd655528065b07bc364a
     environment:
       SERVICES: sns,sqs
       HOSTNAME_EXTERNAL: localstack
@@ -73,7 +73,7 @@ services:
       - ./data/mysql:/var/lib/mysql
 
   cache:
-    image: redis:6.0-alpine@sha256:2b35fc7d2908e25aa6aa197f97882c8a67829d3b106ad5ea5c8028f816f26aa8
+    image: redis:8.0-alpine@sha256:5f61955be8ab2ccee9372b84ae4d4da2e2b156f87281e3f218544055e7ee04d4
     command: redis-server --appendonly yes
     expose:
       - "6379"
