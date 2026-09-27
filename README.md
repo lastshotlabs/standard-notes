@@ -2,9 +2,9 @@
 
 Private Standard Notes sync infrastructure for `ds1`, deployed at:
 
-- `https://journal.jdealla.com` — self-hosted web journal
-- `https://journal-sync.jdealla.com` — sync and authentication API
-- `https://journal-files.jdealla.com` — encrypted file API
+- `https://notes.jdealla.com` — self-hosted web journal
+- `https://notes-sync.jdealla.com` — sync and authentication API
+- `https://notes-files.jdealla.com` — encrypted file API
 
 The Standard Notes web, desktop, and mobile clients encrypt journal contents
 before sending them to this server. All published container ports bind only to
@@ -17,15 +17,15 @@ Install the Standard Notes app. At the sign-in screen choose **Advanced
 options**, select a custom sync server, and enter:
 
 ```text
-https://journal-sync.jdealla.com
+https://notes-sync.jdealla.com
 ```
 
-The self-hosted web client at `https://journal.jdealla.com` is configured to
+The self-hosted web client at `https://notes.jdealla.com` is configured to
 use this custom sync server by default. The native mobile and desktop clients
 still require the one-time custom sync-server selection above.
 
 Browser authentication cookies are scoped to `jdealla.com` so the web origin
-can maintain a session with the separate `journal-sync` origin. They are
+can maintain a session with the separate `notes-sync` origin. They are
 Secure, SameSite=Lax, and not partitioned.
 
 Register the owner's account once. Then immediately disable further account

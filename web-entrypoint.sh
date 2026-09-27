@@ -8,13 +8,13 @@ index=/usr/share/nginx/html/index.html
 # sync/files services and disable the hosted websocket endpoint before nginx
 # serves any client assets.
 sed -i \
-  -e 's#window.defaultSyncServer = "https://api.standardnotes.com";#window.defaultSyncServer = "https://journal-sync.jdealla.com";#' \
-  -e 's#window.defaultFilesHost = "https://files.standardnotes.com";#window.defaultFilesHost = "https://journal-files.jdealla.com";#' \
+  -e 's#window.defaultSyncServer = "https://api.standardnotes.com";#window.defaultSyncServer = "https://notes-sync.jdealla.com";#' \
+  -e 's#window.defaultFilesHost = "https://files.standardnotes.com";#window.defaultFilesHost = "https://notes-files.jdealla.com";#' \
   -e 's#window.websocketUrl = "wss://sockets.standardnotes.com";#window.websocketUrl = "";#' \
   "$index"
 
-grep -Fq 'window.defaultSyncServer = "https://journal-sync.jdealla.com";' "$index"
-grep -Fq 'window.defaultFilesHost = "https://journal-files.jdealla.com";' "$index"
+grep -Fq 'window.defaultSyncServer = "https://notes-sync.jdealla.com";' "$index"
+grep -Fq 'window.defaultFilesHost = "https://notes-files.jdealla.com";' "$index"
 grep -Fq 'window.websocketUrl = "";' "$index"
 
 exec nginx -g 'daemon off;'
